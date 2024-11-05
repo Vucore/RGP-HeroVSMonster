@@ -1,2 +1,4 @@
+Make by Unity 
 Đang được hoàn thành!!!!
-COMMING SOON...!!!
+COMMING SOON...!!! (Full of skills, equipment, inventory, monsters, untimate,...)
+
