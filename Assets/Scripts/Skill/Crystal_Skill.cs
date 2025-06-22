@@ -16,6 +16,7 @@ public class Crystal_Skill : Skill
     [Header("Moving crystal")]
     [SerializeField] private bool canMoveToEnemy;
     [SerializeField] private float moveSpeed;
+    [SerializeField] private float checkEnemyRadius;
 
     public override void UseSkill()
     {
@@ -25,7 +26,7 @@ public class Crystal_Skill : Skill
         {
             currentCrystal = Instantiate(crystallPrefab, player.transform.position, Quaternion.identity);
             Crystal_Skill_Controller currentCrystalScript = currentCrystal.GetComponent<Crystal_Skill_Controller>();
-            currentCrystalScript.SetupCrystal(crystalDuration, canExplode, canMoveToEnemy, moveSpeed);
+            currentCrystalScript.SetupCrystal(crystalDuration, canExplode, canMoveToEnemy, moveSpeed, FindClosestAttack(currentCrystal.transform, checkEnemyRadius));
         }
         else
         {
@@ -34,5 +35,11 @@ public class Crystal_Skill : Skill
             currentCrystal.transform.position = playerPos;
             currentCrystal.GetComponent<Crystal_Skill_Controller>()?.FinishCrystal();
         }
+    }
+    private void OnDrawGizmos()
+    {
+        if (currentCrystal == null) return;
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(currentCrystal.transform.position, checkEnemyRadius);
     }
 }

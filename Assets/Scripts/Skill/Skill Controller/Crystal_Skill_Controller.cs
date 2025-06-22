@@ -12,12 +12,15 @@ public class Crystal_Skill_Controller : MonoBehaviour
     private float moveSpeed;
     private bool canGrow;
     private float growSpeed = 5f;
-    public void SetupCrystal(float _crystalDuration, bool _canExplode, bool _canMove, float _moveSpeed)
+
+    private Transform closestTarget;
+    public void SetupCrystal(float _crystalDuration, bool _canExplode, bool _canMove, float _moveSpeed, Transform _closestTarget)
     {
         crystalExistTimer = _crystalDuration;
         canExplode = _canExplode;
         canMove = _canMove;
         moveSpeed = _moveSpeed;
+        closestTarget = _closestTarget;
     }
     private void Update()
     {
@@ -26,6 +29,15 @@ public class Crystal_Skill_Controller : MonoBehaviour
         {
             FinishCrystal();
         }
+        if (canMove && closestTarget != null)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, closestTarget.position, moveSpeed * Time.deltaTime);
+            if (Vector2.Distance(transform.position, closestTarget.position) < 1f)
+            {
+                FinishCrystal();
+            }
+        }
+
         if (canGrow)
         {
             transform.localScale = Vector2.Lerp(transform.localScale, new Vector2(10, 10), growSpeed * Time.deltaTime);
@@ -42,10 +54,12 @@ public class Crystal_Skill_Controller : MonoBehaviour
             }
         }
     }
+
     public void FinishCrystal()
     {
         if (canExplode)
         {
+            canMove = false;
             canGrow = true;
             anim.SetTrigger("Explode");
         }
