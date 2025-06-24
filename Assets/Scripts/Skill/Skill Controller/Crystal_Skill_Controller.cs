@@ -59,7 +59,7 @@ public class Crystal_Skill_Controller : MonoBehaviour
     {
         if (canExplode)
         {
-            canMove = false;
+            // canMove = false;
             canGrow = true;
             anim.SetTrigger("Explode");
         }
