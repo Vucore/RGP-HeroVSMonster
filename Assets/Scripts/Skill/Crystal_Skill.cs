@@ -35,9 +35,7 @@ public class Crystal_Skill : Skill
 
         if (currentCrystal == null)
         {
-            currentCrystal = Instantiate(crystallPrefab, player.transform.position, Quaternion.identity);
-            Crystal_Skill_Controller currentCrystalScript = currentCrystal.GetComponent<Crystal_Skill_Controller>();
-            currentCrystalScript.SetupCrystal(crystalDuration, canExplode, canMoveToEnemy, moveSpeed, FindClosestAttack(currentCrystal.transform, checkEnemyRadius));
+            CreateCrystal();
         }
         else
         {
@@ -58,6 +56,14 @@ public class Crystal_Skill : Skill
             }
         }
     }
+
+    public void CreateCrystal()
+    {
+        currentCrystal = Instantiate(crystallPrefab, player.transform.position, Quaternion.identity);
+        Crystal_Skill_Controller currentCrystalScript = currentCrystal.GetComponent<Crystal_Skill_Controller>();
+        currentCrystalScript.SetupCrystal(crystalDuration, canExplode, canMoveToEnemy, moveSpeed, FindClosestAttack(currentCrystal.transform, checkEnemyRadius));
+    }
+    public void CurrentCrystalChooseRandomTarget() => currentCrystal?.GetComponent<Crystal_Skill_Controller>()?.ChooseRandomEnemy();
     private void OnDrawGizmos()
     {
         if (currentCrystal == null) return;
